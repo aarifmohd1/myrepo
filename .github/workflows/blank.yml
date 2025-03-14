@@ -40,6 +40,7 @@ jobs:
       - name: Assign Reviewer to PR
         run: |
           PR_NUMBER=$(gh pr list --head feature-branch --json number --jq '.[0].number')
+          echo $PR_NUMBER
           #gh pr review $PR_NUMBER --approve
           gh pr edit $PR_NUMBER --add-reviewer abc@gmail.com
 
