@@ -13,7 +13,7 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "Aarif Mohd
+          git config --global user.name "Aarif Mohd"
           git config --global user.email "aarifmohd59@gmail.com"
 
       - name: Create a new branch
