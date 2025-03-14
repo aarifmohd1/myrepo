@@ -34,3 +34,17 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: create-pr
+        run: |
+          # SCRIPT_OUTPUT=$(cat script.log)
+          # rm script.log
+          git checkout -b feature_branch
+          touch abc.txt
+          git add .
+          git commit -m "ci: promote services"
+          git push origin feature_branch
+
+          gh pr create --base main --head feature_branch --title "ci: promote services" --body "Promote dev to test
+          Triggered by: ${{ github.actor }}
+
