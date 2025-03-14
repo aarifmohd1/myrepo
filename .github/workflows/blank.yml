@@ -44,8 +44,8 @@ jobs:
           git add .
           git commit -m "ci: promote services"
           git push origin feature_branch
-          git config  user.name "aarifmohd1"
+          git config  user.name "Aarif Mohd"
           git config  user.email "aarifmohd59@gmail.com"
           gh pr create --base main --head feature_branch --title "ci: promote services" --body "Promote dev to test
-          Triggered by: ${{ github.actor }}
+          #Triggered by: ${{ github.actor }}
 
