@@ -28,11 +28,6 @@ jobs:
           git commit -m "Added abc.txt"
           git push origin feature-branch
 
-      - name: Authenticate GH CLI
-        run: echo "$GITHUB_TOKEN" | gh auth login --with-token
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create a Pull Request using GH CLI
         run: |
           gh pr create --title "My New Feature" \
