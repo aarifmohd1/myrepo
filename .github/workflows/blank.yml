@@ -1,22 +1,22 @@
 name: Create PR via GH CLI
 
 on:
-  workflow_dispatch:  # Manually trigger this workflow
-        inputs:
-          pr_reviewee:
-            type: choice
-            description: Choose environments
-            required: true
-            options:
-              - aarifmohd1
-              - abc
-              - xyz
-env:
-  PR_APPROVER: ${{ github.event.inputs.pr_reviewee }}
+  workflow_dispatch:
+    inputs:
+      pr_reviewee:
+        type: choice
+        description: Choose PR Reviewer
+        required: true
+        options:
+          - aarifmohd1
+          - abc
+          - xyz
 
 jobs:
   create-pr:
     runs-on: ubuntu-latest
+    env:
+      PR_APPROVER: ${{ github.event.inputs.pr_reviewee }}
 
     steps:
       - name: Checkout repository
@@ -25,10 +25,9 @@ jobs:
       - name: Set up Git
         run: |
           git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.event.sender.id }}+${{github.event.sender.login}}@users.noreply.github.com"
-          #echo "APPROVER=${PR_APPROVER/*/}" >> "$GITHUB_ENV"
-          approver=${{ PR_APPROVER/*/}
-          echo $approver
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          echo "APPROVER=${{ env.PR_APPROVER }}" >> $GITHUB_ENV
+
       - name: Create a new branch
         run: |
           git checkout -b feature-branch
@@ -47,7 +46,7 @@ jobs:
                        --body "This is a new feature PR." \
                        --base main \
                        --head feature-branch \
-                       --reviewer "nusrat"
+                       --reviewer "${{ env.PR_APPROVER }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -55,6 +54,7 @@ jobs:
         run: |
           PR_NUMBER=$(gh pr view feature-branch --json number --jq '.number')
           echo "Pull Request Number: $PR_NUMBER"
-          gh pr edit $PR_NUMBER --add-reviewer $approver
+          gh pr edit $PR_NUMBER --add-reviewer "${{ env.PR_APPROVER }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
