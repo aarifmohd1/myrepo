@@ -36,7 +36,7 @@ jobs:
                        --body "This is a new feature PR." \
                        --base main \
                        --head feature-branch \
-                       --reviewers nusrat
+                       --reviewer nusrat
 
       - name: Assign Reviewer to PR
         run: |
