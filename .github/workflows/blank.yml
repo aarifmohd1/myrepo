@@ -2,6 +2,17 @@ name: Create PR via GH CLI
 
 on:
   workflow_dispatch:  # Manually trigger this workflow
+        inputs:
+          pr_reviewee:
+            type: choice
+            description: Choose environments
+            required: true
+            options:
+              - aarifmohd1
+              - abc
+              - xyz
+env:
+  PR_APPROVER: ${{ github.event.inputs.pr_reviewee }}
 
 jobs:
   create-pr:
@@ -15,7 +26,8 @@ jobs:
         run: |
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.event.sender.id }}+${{github.event.sender.login}}@users.noreply.github.com"
-
+          #echo "APPROVER=${PR_APPROVER/*/}" >> "$GITHUB_ENV"
+          approver=${{ PR_APPROVER/*/}
       - name: Create a new branch
         run: |
           git checkout -b feature-branch
@@ -42,6 +54,6 @@ jobs:
         run: |
           PR_NUMBER=$(gh pr view feature-branch --json number --jq '.number')
           echo "Pull Request Number: $PR_NUMBER"
-          gh pr edit $PR_NUMBER --add-reviewer "aarifmohd1"
+          gh pr edit $PR_NUMBER --add-reviewer $approver
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
