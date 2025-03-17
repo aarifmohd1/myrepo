@@ -28,6 +28,7 @@ jobs:
           git config --global user.email "${{ github.event.sender.id }}+${{github.event.sender.login}}@users.noreply.github.com"
           #echo "APPROVER=${PR_APPROVER/*/}" >> "$GITHUB_ENV"
           approver=${{ PR_APPROVER/*/}
+          echo $approver
       - name: Create a new branch
         run: |
           git checkout -b feature-branch
