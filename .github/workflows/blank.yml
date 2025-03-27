@@ -11,6 +11,7 @@ on:
           - aarifmohd1
           - abc
           - xyz
+          - abc/xyz
 
 jobs:
   create-pr:
